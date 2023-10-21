@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: Roboto, sans-serif;
+    width: 1280px;
+    height: 720px;
+}
+
+#root {
+    position: relative;
+}
