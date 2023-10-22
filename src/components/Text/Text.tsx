@@ -14,16 +14,16 @@ const Text: React.FC<TextProps> = ({
 
 	switch (type) {
 		case "header":
-			className = "text-3xl font-normal";
+			className = "text-[26px] leading-[30px] font-normal";
 			break;
 		case "text":
-			className = "text-base font-semibold";
+			className = "text-[16px] leading-[19px] font-semibold";
 			break;
 		case "sub-text":
-			className = "text-sm font-normal";
+			className = "text-[14px] leading-[16px] font-normal";
 			break;
 		case "tel-number":
-			className = "text-4xl font-bold";
+			className = "text-[36px] leading-[37px] font-bold";
 			break;
 	}
 

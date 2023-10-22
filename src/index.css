@@ -10,4 +10,11 @@ body {
 
 #root {
     position: relative;
+    overflow: hidden;
+}
+
+@layer utilities {
+    input {
+        @apply appearance-none border-none focus:border-none placeholder-black text-[36px] font-bold text-center;
+    }
 }
