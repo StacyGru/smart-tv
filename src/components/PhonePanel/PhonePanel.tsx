@@ -1,9 +1,11 @@
 import classNames from "classnames";
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import InputMask from 'react-input-mask';
+import {useSelector} from "react-redux";
 import Check from "assets/check.svg";
 import Button from "components/Button";
 import Text from "components/Text";
+import {initialStateType} from "store/store.ts";
 
 export type PhonePanelProps = {
 	className?: string;
@@ -12,8 +14,37 @@ export type PhonePanelProps = {
 const PhonePanel: React.FC<PhonePanelProps> = ({
 		className
   }) => {
-	const numbers: number[] = Array.from({ length: 9 }, (_, index) => index + 1);
+	const isPhonePanelVisible = useSelector((state: initialStateType) => state.showPhonePanel);
+	const numbers: number[] = Array.from({ length: 10 }, (_, index) => index);
 	const [isChecked, setChecked] = useState(false);
+	const [phoneNumber, setPhoneNumber] = useState("");
+
+	const handleKeyDown = useCallback((event: { key: string; }) => {
+		if (/^\d$/.test(event.key) || event.key === 'Backspace') {
+			window.document.getElementById("phoneInput")?.focus();
+		}
+	}, []);
+
+	useEffect(() => {
+		if (isPhonePanelVisible) {
+			window.document.getElementById("phoneInput")?.focus();
+			window.addEventListener('keydown', handleKeyDown, true);
+
+		} else {
+			window.document.getElementById("phoneInput")?.blur();
+			window.removeEventListener('keydown', handleKeyDown, true);
+		}
+	}, [isPhonePanelVisible, handleKeyDown]);
+
+	function onscreenKeyboard(number: number) {
+		if (phoneNumber.length < 10) {
+			setPhoneNumber(phoneNumber + number.toString());
+		}
+	}
+
+	function backspaceKey() {
+		setPhoneNumber(phoneNumber.slice(0, -1));
+	}
 	
 	return (
 		<div
@@ -33,6 +64,8 @@ const PhonePanel: React.FC<PhonePanelProps> = ({
 				type="tel"
 				placeholder="+7(___)___-__-__"
 				className="bg-mainBlue w-full focus:outline-none"
+				value={phoneNumber}
+				onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(1))}
 			/>
 			<Text type="sub-text">
 				и с Вами свяжется наш менеждер для<br/>
@@ -42,16 +75,23 @@ const PhonePanel: React.FC<PhonePanelProps> = ({
 			<div
 				className="grid grid-cols-3 gap-[10px] py-[20px]"
 			>
-				{numbers.map((item) => (
-					<Button type="blue-border" key={item}><Text type="text">{item}</Text></Button>
+				{numbers.map((number) => (
+					<Button
+						type="blue-border"
+						key={number}
+						className="first:order-last"
+						onClick={() => onscreenKeyboard(number)}
+					>
+						<Text type="text">{number}</Text>
+					</Button>
 				))}
 				<Button
 					type="blue-border"
 					className="col-span-2 !w-[186px]"
+					onClick={() => backspaceKey()}
 				>
 					<Text type="text">СТЕРЕТЬ</Text>
 				</Button>
-				<Button type="blue-border"><Text type="text">0</Text></Button>
 			</div>
 
 			<div
