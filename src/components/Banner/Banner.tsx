@@ -29,7 +29,7 @@ const Banner: React.FC<BannerProps> = ({
 				className
 			)}
 		>
-			<Text type="text">
+			<Text type="text" className={"text-css"}>
 				ИСПОЛНИТЕ МЕЧТУ ВАШЕГО <br/>
 				МАЛЫША! <br/>
 				ПОДАРИТЕ ЕМУ СОБАКУ!
