@@ -25,8 +25,8 @@ const Banner: React.FC<BannerProps> = ({
 	return (
 		<div
 			className={classNames(
-				"bg-mainBlue absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-full px-[10px] pt-[20px] pb-[10px] text-center flex flex-col items-center gap-[20px] w-[250px]",
-				className
+				className,
+				"bg-mainBlue absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-full px-[10px] pt-[20px] pb-[10px] text-center flex flex-col items-center gap-[20px] w-[250px]"
 			)}
 		>
 			<Text type="text" className={"text-css"}>
@@ -45,6 +45,7 @@ const Banner: React.FC<BannerProps> = ({
 			</Text>
 			<Button
 				type="dark-blue"
+				className="w-[156px]"
 				onClick={showPhonePanel}
 			>
 				<Text type="text">ОК</Text>

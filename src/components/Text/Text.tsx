@@ -26,7 +26,7 @@ const Text: React.FC<TextProps> = ({
 			classNameType = "text-[14px] leading-[16px] font-normal";
 			break;
 		case "tel-number":
-			classNameType = "text-[36px] leading-[37px] font-bold";
+			classNameType = "text-[32px] leading-[37px] font-bold";
 			break;
 	}
 
