@@ -1,27 +1,34 @@
-# React + TypeScript + Vite
+# Демо-версия микросайта для SmartTV
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Тестовое задание на вакансию Junior Frontend Developer в компанию GetShop.TV.
 
-Currently, two official plugins are available:
+Ссылка на сайт: https://stacygru.github.io/smart-tv/.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Сайт имеет фиксированное разрешение 1280х720.
 
-## Expanding the ESLint configuration
+## Стек технологий
+- React
+- TypeScript
+- Redux, Redux Thunk
+- Tailwind CSS
+- Vite
+- API: https://apilayer.com/marketplace/number_verification-api
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Функционал
 
-- Configure the top-level `parserOptions` property like this:
+- экран с видео и баннером:
+   - воспроизведение видео на заднем плане;
+   - появление баннера через 5 секунд после начала воспроизведения видео;
+   - автоматическая фокусировка на кнопке перехода на экран ввода номера;
+   - приостановление воспроизведения видео при переходе на экран ввода номера;
+   - возвращение на страницу с видео при отсутствии взаимодействия пользователя с сайтом на протяжении 10 секунд и возобновление воспроизведения видео;
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+- экран ввода номера:
+   - ввод номера телефона при помощи физической клавиатуры;
+   - ввод номера телефона при помощи экранной клавиатуры (по клику или через навигацию стрелками на физической клавиатуре и подтверждение кнопкой "Enter");
+   - возможность подтвердить номер телефона только при полностью введённом номере и согласии с обработкой персональных данных;
+   - валидация номера телефона при помощи API;
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- финальный информационный экран:
+   - сообщение об успешном отправлении заявки;
+   - автоматическая фокусировка на кнопке закрытия панели.
