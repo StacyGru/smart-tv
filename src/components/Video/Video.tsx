@@ -1,5 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
+import {useSelector} from "react-redux";
 import BackgroundVideo from "assets/background-video.mp4";
+import {initialStateType} from "store/store.ts";
 
 export type BackgroundProps = {
 	paused?: boolean;
@@ -10,13 +12,20 @@ const Video: React.FC<BackgroundProps> = ({
   }) => {
 	const videoRef = useRef<HTMLVideoElement | null>(null);
 	const [isPaused, setIsPaused] = useState(paused);
+	const isPhonePanelVisible = useSelector((state: initialStateType) => state.showPhonePanel);
 
 	useEffect(() => {
+		if (isPhonePanelVisible) {
+			setIsPaused(true);
+		} else {
+			setIsPaused(false);
+		}
 		if (videoRef.current && isPaused) {
 			videoRef.current.pause();
-			setIsPaused(true);
+		} else if (videoRef.current && !isPaused) {
+			videoRef.current?.play();
 		}
-	}, [isPaused]);
+	}, [isPhonePanelVisible, isPaused]);
 
 	return (
 		<video

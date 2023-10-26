@@ -6,7 +6,7 @@ import Button from "components/Button";
 import Cross from "components/SVG/CrossSVG";
 import Text from "components/Text";
 import {useButtonContext} from "context/ButtonContext.tsx";
-import {setPhonePanelVisibility} from "store/actions.ts";
+import {setBannerVisibility, setPhonePanelVisibility} from "store/actions.ts";
 import {initialStateType, store} from "store/store.ts";
 import ConfirmationButton from "./ConfirmationButton";
 import OnscreenKeyboard from "./OnscreenKeyboard";
@@ -20,6 +20,7 @@ export type PhonePanelProps = {
 const PhonePanel: React.FC<PhonePanelProps> = ({
 		className
 	}) => {
+	const phoneNumber = useSelector((state: initialStateType) => state.phoneNumber);
 	const phoneIsEntered = useSelector((state: initialStateType) => state.phoneIsEntered);
 	const personalDataAgreement = useSelector((state: initialStateType) => state.personalDataAgreement);
 	const applicationAccepted = useSelector(
@@ -28,6 +29,31 @@ const PhonePanel: React.FC<PhonePanelProps> = ({
 	const buttonRefs = useButtonContext();
 	const [focusedButtonIndex, setFocusedButtonIndex] = useState(5);
 	const buttonAmount = 12;
+	let timer: NodeJS.Timeout;
+
+	function setInactivityTimer() {
+		timer = setTimeout(() => {
+			store.dispatch(setPhonePanelVisibility(false));
+			store.dispatch(setBannerVisibility(true));
+		}, 10000);
+	}
+
+	function resetInactivityTimer() {
+		clearTimeout(timer);
+		setInactivityTimer();
+	}
+
+	useEffect(() => {
+		setInactivityTimer();
+		window.addEventListener("mousemove", resetInactivityTimer);
+		window.addEventListener("keydown", resetInactivityTimer);
+
+		return () => {
+			clearTimeout(timer);
+			window.removeEventListener("mousemove", resetInactivityTimer);
+			window.removeEventListener("keydown", resetInactivityTimer);
+		};
+	}, []);
 
 	useEffect(() => {
 		buttonRefs.current[focusedButtonIndex]?.focus();
