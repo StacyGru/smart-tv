@@ -3,11 +3,17 @@ import {setApplicationAccepted, setPhoneNumberValidity, setSubmitted} from "./ac
 import {actionType} from "./store.ts";
 
 export const validatePhoneNumber = (phoneNumber: string) => {
-	const accessKey: string = "03697a85d0efe6b2096119d80281ead2";
-	const countryCode: string = "RU";
+	const myHeaders = new Headers();
+	myHeaders.append("apikey", "aIBbeJwr7uFgGd0vWuVixciTkqaAzMok");
+	const requestOptions: RequestInit = {
+		method: 'GET',
+		redirect: 'follow',
+		headers: myHeaders
+	};
 	return function (dispatch: Dispatch<actionType>) {
 		fetch(
-			`https://apilayer.net/api/validate?access_key=${accessKey}&number=${phoneNumber}&country_code=${countryCode}`
+			`https://api.apilayer.com/number_verification/validate?number=+7${phoneNumber}`,
+						requestOptions
 		)
 			.then(response => response.json())
 			.then(json => {
