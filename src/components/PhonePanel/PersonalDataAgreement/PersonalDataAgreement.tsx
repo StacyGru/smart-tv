@@ -9,6 +9,8 @@ const PersonalDataAgreement= () => {
 
 	const personalDataAgreement = useSelector((state: initialStateType) => state.personalDataAgreement);
 	const buttonRefs = useButtonContext();
+	const isPhoneValid = useSelector((state: initialStateType) => state.isPhoneValid);
+	const isSubmitted = useSelector((state: initialStateType) => state.isSubmitted);
 	
 	function handleChange() {
 		store.dispatch(setPersonalDataAgreement(!personalDataAgreement));
@@ -20,40 +22,49 @@ const PersonalDataAgreement= () => {
 		}
 	}
 	
-	return (
-		<div
-			className="flex gap-[20px] p-[10px] place-self-start ml-[24px]"
-		>
-			<input
-				type="checkbox"
-				id="personal_data"
-				className="w-[40px] h-[40px] outline outline-2 outline-black cursor-pointer focus:bg-black check-input"
-				checked={personalDataAgreement}
-				onChange={handleChange}
-				ref={(input) => (buttonRefs.current[12] = input)}
-				onKeyDown={handleKeyDown}
-			/>
-			{personalDataAgreement &&
-				<Check
-					className="absolute ml-[20px] -translate-x-1/2 mt-[20px] -translate-y-1/2 cursor-pointer check-icon"
-					onClick={handleChange}
-				/>
-			}
-			<label
-				htmlFor="personal_data"
-				className="flex"
+	if (isSubmitted && !isPhoneValid) {
+		return (
+			<div
+				className="flex h-[52px] p-[10px] place-content-center align-middle"
 			>
-
-				<Text
-					type="sub-text"
-					className="text-secondaryGray my-auto"
+				<Text type={"text"} className="text-invalidRed m-auto">НЕВЕРНО ВВЕДЁН НОМЕР</Text>
+			</div>
+		);
+	} else {
+		return (
+			<div
+				className="flex gap-[20px] px-[10px] py-[6px] place-self-start ml-[24px]"
+			>
+				<input
+					type="checkbox"
+					id="personal_data"
+					className="w-[40px] h-[40px] outline outline-2 outline-black cursor-pointer focus:bg-black check-input"
+					checked={personalDataAgreement}
+					onChange={handleChange}
+					ref={(input) => (buttonRefs.current[12] = input)}
+					onKeyDown={handleKeyDown}
+				/>
+				{personalDataAgreement &&
+					<Check
+						className="absolute cursor-pointer check-icon"
+						onClick={handleChange}
+					/>
+				}
+				<label
+					htmlFor="personal_data"
+					className="flex"
 				>
-					Согласие на обработку<br/>
-					персональных данных
-				</Text>
-			</label>
-		</div>
-	);
+					<Text
+						type="sub-text"
+						className="text-secondaryGray my-auto"
+					>
+						Согласие на обработку<br/>
+						персональных данных
+					</Text>
+				</label>
+			</div>
+		);
+	}
 }
 
 export default PersonalDataAgreement;

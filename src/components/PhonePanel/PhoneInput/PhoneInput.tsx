@@ -7,6 +7,8 @@ import {initialStateType, store} from "store/store.ts";
 const PhoneInput = () => {
 	const isPhonePanelVisible = useSelector((state: initialStateType) => state.showPhonePanel);
 	const phoneNumber = useSelector((state: initialStateType) => state.phoneNumber);
+	const isPhoneValid = useSelector((state: initialStateType) => state.isPhoneValid);
+	const isSubmitted = useSelector((state: initialStateType) => state.isSubmitted);
 	const inputRef = useRef<HTMLInputElement | null>(null);
 
 	const handleKeyDown = useCallback((event: { key: string; }) => {
@@ -38,7 +40,7 @@ const PhoneInput = () => {
 			id="phoneInput"
 			type="tel"
 			placeholder="+7(___)___-__-__"
-			className="bg-mainBlue w-full focus:outline-none"
+			className={`bg-mainBlue w-full focus:outline-none ${isSubmitted && !isPhoneValid && `text-invalidRed`}`}
 			value={phoneNumber}
 			onChange={(e) => handleInputChange(e)}
 		/>

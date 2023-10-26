@@ -13,7 +13,9 @@ interface ButtonProviderProps {
 export const ButtonProvider: React.FC<ButtonProviderProps> = ({ children }) => {
 	const buttonRefs = useRef<(HTMLButtonElement | HTMLInputElement | null)[]>([]);
 	return (
-		<ButtonContext.Provider value={{ buttonRefs }}>{children}</ButtonContext.Provider>
+		<ButtonContext.Provider value={{ buttonRefs }}>
+			{children}
+		</ButtonContext.Provider>
 	);
 };
 

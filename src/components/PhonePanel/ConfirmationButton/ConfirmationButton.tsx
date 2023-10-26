@@ -3,25 +3,26 @@ import { useSelector} from "react-redux";
 import Button from "components/Button";
 import Text from "components/Text";
 import {useButtonContext} from "context/ButtonContext.tsx";
-import {setApplicationAccepted} from "store/actions.ts";
 import {initialStateType, store} from "store/store.ts";
+import {validatePhoneNumber} from "store/asyncActions.ts";
 
 const ConfirmationButton = () => {
-	const phoneIsEntered = useSelector((state: initialStateType) => state.phoneIsEntered);
+	const phoneNumber = useSelector((state: initialStateType) => state.phoneNumber);
+	const isPhoneEntered = useSelector((state: initialStateType) => state.isPhoneEntered);
 	const personalDataAgreement = useSelector((state: initialStateType) => state.personalDataAgreement);
 	const [isDisabled, setDisabled] = useState(true);
 	const buttonRefs = useButtonContext();
 
 	useEffect(() => {
-		if (phoneIsEntered && personalDataAgreement) {
+		if (isPhoneEntered && personalDataAgreement) {
 			setDisabled(false);
 		} else {
 			setDisabled(true);
 		}
-	}, [phoneIsEntered, personalDataAgreement]);
+	}, [isPhoneEntered, personalDataAgreement]);
 
 	function handleConfirmation() {
-		store.dispatch(setApplicationAccepted(true));
+		store.dispatch(validatePhoneNumber(phoneNumber));
 	}
 
   return (

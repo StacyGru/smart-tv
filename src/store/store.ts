@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import thunk from "redux-thunk";
 import {reducer} from "./reducers.ts";
 
 export type actionType = {
@@ -10,8 +11,10 @@ export type initialStateType = {
 	showBanner: boolean;
 	showPhonePanel: boolean;
 	phoneNumber: string;
-	phoneIsEntered: boolean;
+	isPhoneEntered: boolean;
+	isPhoneValid: boolean;
 	personalDataAgreement: boolean;
+	isSubmitted: boolean;
 	applicationAccepted: boolean;
 }
 
@@ -19,12 +22,17 @@ export const initialState: initialStateType = {
 	showBanner: false,
 	showPhonePanel: false,
 	phoneNumber: "",
-	phoneIsEntered: false,
+	isPhoneEntered: false,
+	isPhoneValid: false,
 	personalDataAgreement: false,
+	isSubmitted: false,
 	applicationAccepted: false,
 }
+
+const middleware = [thunk];
 
 export const store = configureStore({
 	reducer: reducer,
 	preloadedState: initialState,
+	...middleware
 });

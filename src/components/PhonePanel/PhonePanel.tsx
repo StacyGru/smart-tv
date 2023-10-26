@@ -6,7 +6,7 @@ import Button from "components/Button";
 import Cross from "components/SVG/CrossSVG";
 import Text from "components/Text";
 import {useButtonContext} from "context/ButtonContext.tsx";
-import {setBannerVisibility, setPhonePanelVisibility} from "store/actions.ts";
+import {setBannerVisibility, setPhonePanelVisibility, setSubmitted} from "store/actions.ts";
 import {initialStateType, store} from "store/store.ts";
 import ConfirmationButton from "./ConfirmationButton";
 import OnscreenKeyboard from "./OnscreenKeyboard";
@@ -21,7 +21,7 @@ const PhonePanel: React.FC<PhonePanelProps> = ({
 		className
 	}) => {
 	const phoneNumber = useSelector((state: initialStateType) => state.phoneNumber);
-	const phoneIsEntered = useSelector((state: initialStateType) => state.phoneIsEntered);
+	const isPhoneEntered = useSelector((state: initialStateType) => state.isPhoneEntered);
 	const personalDataAgreement = useSelector((state: initialStateType) => state.personalDataAgreement);
 	const applicationAccepted = useSelector(
 		(state: initialStateType) => state.applicationAccepted
@@ -56,14 +56,18 @@ const PhonePanel: React.FC<PhonePanelProps> = ({
 	}, []);
 
 	useEffect(() => {
+		store.dispatch(setSubmitted(false));
+	}, [phoneNumber]);
+
+	useEffect(() => {
 		buttonRefs.current[focusedButtonIndex]?.focus();
 	}, [focusedButtonIndex]);
 
 	useEffect(() => {
-		if (phoneIsEntered && personalDataAgreement) {
+		if (isPhoneEntered && personalDataAgreement) {
 			buttonRefs.current[13]?.focus();
 		}
-	}, [phoneIsEntered, personalDataAgreement]);
+	}, [isPhoneEntered, personalDataAgreement]);
 
 	useEffect(() => {
 		if (applicationAccepted) {
@@ -121,7 +125,7 @@ const PhonePanel: React.FC<PhonePanelProps> = ({
 					setFocusedButtonIndex((prevIndex) => (prevIndex + 2 + buttonAmount) % buttonAmount);
 				} else if (focusedButtonIndex === 10 || focusedButtonIndex === 11) {
 					setFocusedButtonIndex(12);
-				} else if (focusedButtonIndex === 12 && phoneIsEntered && personalDataAgreement) {
+				} else if (focusedButtonIndex === 12 && isPhoneEntered && personalDataAgreement) {
 					setFocusedButtonIndex(13);
 				} else {
 					setFocusedButtonIndex((prevIndex) => (prevIndex + 3 + buttonAmount) % buttonAmount);
