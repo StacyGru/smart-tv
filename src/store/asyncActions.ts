@@ -7,7 +7,7 @@ export const validatePhoneNumber = (phoneNumber: string) => {
 	const countryCode: string = "RU";
 	return function (dispatch: Dispatch<actionType>) {
 		fetch(
-			`http://apilayer.net/api/validate?access_key=${accessKey}&number=${phoneNumber}&country_code=${countryCode}`
+			`https://apilayer.net/api/validate?access_key=${accessKey}&number=${phoneNumber}&country_code=${countryCode}`
 		)
 			.then(response => response.json())
 			.then(json => {
