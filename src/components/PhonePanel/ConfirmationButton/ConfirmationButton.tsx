@@ -1,14 +1,16 @@
 import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import Button from "components/Button";
 import Text from "components/Text";
-import {initialStateType, SET_APPLICATION_ACCEPTED} from "store/store.ts";
+import {useButtonContext} from "context/ButtonContext.tsx";
+import {setApplicationAccepted} from "store/actions.ts";
+import {initialStateType, store} from "store/store.ts";
 
 const ConfirmationButton = () => {
 	const phoneIsEntered = useSelector((state: initialStateType) => state.phoneIsEntered);
 	const personalDataAgreement = useSelector((state: initialStateType) => state.personalDataAgreement);
 	const [isDisabled, setDisabled] = useState(true);
-	const dispatch = useDispatch();
+	const buttonRefs = useButtonContext();
 
 	useEffect(() => {
 		if (phoneIsEntered && personalDataAgreement) {
@@ -19,10 +21,7 @@ const ConfirmationButton = () => {
 	}, [phoneIsEntered, personalDataAgreement]);
 
 	function handleConfirmation() {
-		dispatch({
-			type: SET_APPLICATION_ACCEPTED,
-			payload: true
-		})
+		store.dispatch(setApplicationAccepted(true));
 	}
 
   return (
@@ -31,6 +30,7 @@ const ConfirmationButton = () => {
 		  className="!w-[284px] disabled:outline-disabledGray disabled:text-disabledGray disabled:hover:bg-mainBlue"
 		  disabled={isDisabled}
 		  onClick={handleConfirmation}
+		  refValue={(button) => (buttonRefs.current[13] = button)}
 	  >
 		  <Text type="text">ПОДТВЕРДИТЬ НОМЕР</Text>
 	  </Button>

@@ -22,7 +22,8 @@
     "paths": {
       "components": ["components/*"],
       "assets": ["assets/*"],
-      "store": ["store/*"]
+      "store": ["store/*"],
+      "context": ["context/*"]
     }
   },
   "include": ["src"],

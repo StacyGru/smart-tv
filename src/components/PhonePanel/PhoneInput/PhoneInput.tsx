@@ -1,12 +1,13 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 import InputMask from "react-input-mask";
-import {useDispatch, useSelector} from "react-redux";
-import {initialStateType, SET_PHONE_NUMBER} from "store/store.ts";
+import {useSelector} from "react-redux";
+import {setPhoneNumber} from "store/actions.ts";
+import {initialStateType, store} from "store/store.ts";
 
 const PhoneInput = () => {
 	const isPhonePanelVisible = useSelector((state: initialStateType) => state.showPhonePanel);
 	const phoneNumber = useSelector((state: initialStateType) => state.phoneNumber);
-	const dispatch = useDispatch();
+	const inputRef = useRef<HTMLInputElement | null>(null);
 
 	const handleKeyDown = useCallback((event: { key: string; }) => {
 		if (/^\d$/.test(event.key) || event.key === 'Backspace') {
@@ -16,7 +17,6 @@ const PhoneInput = () => {
 
 	useEffect(() => {
 		if (isPhonePanelVisible) {
-			window.document.getElementById("phoneInput")?.focus();
 			window.addEventListener('keydown', handleKeyDown, true);
 
 		} else {
@@ -26,10 +26,9 @@ const PhoneInput = () => {
 	}, [isPhonePanelVisible, handleKeyDown]);
 
 	function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-		dispatch({
-			type: SET_PHONE_NUMBER,
-			payload: event.target.value.replace(/\D/g, "").slice(1)
-		});
+		store.dispatch(setPhoneNumber(event.target.value.replace(/\D/g, "").slice(1)));
+		const inputElement = inputRef.current;
+		inputElement?.setSelectionRange(inputElement.value.length, inputElement.value.length);
 	}
 
 	return (

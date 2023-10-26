@@ -18,3 +18,19 @@ body {
         @apply appearance-none border-none focus:border-none placeholder-black text-[36px] font-bold text-center;
     }
 }
+
+.cross-icon {
+    stroke: black;
+}
+
+.cross-button:focus .cross-icon, .cross-button:hover .cross-icon {
+    stroke: white;
+}
+
+.check-icon {
+    stroke: black;
+}
+
+.check-input:focus + .check-icon {
+    stroke: white;
+}

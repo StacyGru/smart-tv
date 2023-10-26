@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React from "react";
+import React, {LegacyRef} from "react";
 
 export type ButtonProps = {
 	type: "dark-blue" | "blue-border" | "white-border";
@@ -7,15 +7,19 @@ export type ButtonProps = {
 	onClick?: () => void;
 	className?: string;
 	disabled?: boolean;
+	refValue?: LegacyRef<HTMLButtonElement>;
+	onBlur?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
-		type,
-		children,
-		onClick,
-		className,
-		disabled = false
-  }) => {
+	type,
+	children,
+	onClick,
+	className,
+	disabled = false,
+	refValue,
+	onBlur
+}) => {
 
 	const baseClassName = "p-[16px] h-[52px] flex items-center justify-center transition duration-200"
 
@@ -25,10 +29,10 @@ const Button: React.FC<ButtonProps> = ({
 			classNameType  = "bg-black text-mainBlue hover:opacity-80";
 			break;
 		case "blue-border":
-			classNameType  = "bg-mainBlue text-black w-[88px] outline outline-2 outline-black hover:bg-black hover:text-white";
+			classNameType  = "bg-mainBlue text-black w-[88px] outline outline-2 outline-black hover:bg-black hover:text-white focus:bg-black focus:text-white";
 			break;
 		case "white-border":
-			classNameType  = "bg-white text-black w-[88px] outline outline-2 outline-black hover:bg-mainBlue";
+			classNameType  = "bg-white text-black w-[88px] outline outline-2 outline-black hover:bg-black  hover:bg-black hover:text-white focus:bg-black focus:text-white";
 			break;
 	}
 
@@ -37,6 +41,8 @@ const Button: React.FC<ButtonProps> = ({
 			className={classNames(className, baseClassName, classNameType)}
 			onClick={onClick}
 			disabled={disabled}
+			ref={refValue}
+			onBlur={onBlur}
 		>
 			{children}
 		</button>
